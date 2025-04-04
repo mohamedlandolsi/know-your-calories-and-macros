@@ -1,6 +1,6 @@
 "use client";
 
-import { Dumbbell } from "lucide-react";
+import { Calculator } from "lucide-react";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./theme/theme-toggle";
 import { LanguageSwitcher } from "./language/language-switcher";
@@ -18,11 +18,11 @@ export function Header() {
         transition={{ duration: 0.5 }}
       >
         <div className="bg-primary/20 dark:bg-primary/30 p-2 rounded-lg">
-          <Dumbbell className="h-7 w-7 text-primary" />
+          <Calculator className="h-7 w-7 text-primary" />
         </div>
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent dark:from-primary dark:to-primary/80">
-            {t('appName')}
+            {t("appName")}
           </h1>
         </div>
       </motion.div>

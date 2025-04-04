@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "Know Your Calories and Macros",
   description:
     "Calculate your daily calorie and macronutrient needs based on your body metrics and fitness goals.",
+  icons: {
+    icon: "/images/favicon_io/favicon.ico",
+    apple: "/images/favicon_io/apple-touch-icon.png",
+    shortcut: "/images/favicon_io/favicon.ico",
+  },
 };
 
 export default function RootLayout({
