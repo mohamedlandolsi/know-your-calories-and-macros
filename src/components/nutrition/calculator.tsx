@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
@@ -238,6 +238,7 @@ export default function NutritionCalculator() {
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [results, setResults] = useState<NutritionResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<CalculatorFormValues>({
     defaultValues: {
@@ -279,6 +280,16 @@ export default function NutritionCalculator() {
         });
 
         setResults(result);
+
+        // Scroll to results after a short delay to ensure DOM is updated
+        setTimeout(() => {
+          if (resultsRef.current) {
+            resultsRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 100);
       } catch (error) {
         console.error("Calculation error:", error);
       } finally {
@@ -692,6 +703,7 @@ export default function NutritionCalculator() {
               variants={resultsVariants}
               initial="hidden"
               animate="visible"
+              ref={resultsRef}
             >
               <div className="flex items-center justify-center mb-6 gap-2">
                 <div className="h-px w-12 bg-primary/50"></div>
