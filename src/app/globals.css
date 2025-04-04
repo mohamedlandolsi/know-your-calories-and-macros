@@ -215,3 +215,36 @@
 .animate-pulse-subtle:hover {
   animation: pulse 2s infinite ease-in-out;
 }
+
+/* RTL language support */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="rtl"] .ml-auto {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+html[dir="rtl"] .mr-auto {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Fix RTL input behavior */
+html[dir="rtl"] input[type="number"] {
+  direction: ltr;
+  text-align: right;
+}
+
+/* Fix for flex layout in RTL */
+html[dir="rtl"] .gap-2 > *:not(:last-child),
+html[dir="rtl"] .gap-3 > *:not(:last-child),
+html[dir="rtl"] .gap-4 > *:not(:last-child) {
+  margin-left: 0;
+}
+
+/* Fix for dropdown menu in RTL */
+html[dir="rtl"] [data-radix-popper-content-wrapper] {
+  transform-origin: right top !important;
+}

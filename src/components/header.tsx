@@ -3,8 +3,12 @@
 import { Dumbbell } from "lucide-react";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./theme/theme-toggle";
+import { LanguageSwitcher } from "./language/language-switcher";
+import { useLanguage } from "@/lib/i18n";
 
 export function Header() {
+  const { t } = useLanguage();
+
   return (
     <header className="flex flex-col sm:flex-row justify-between items-center w-full max-w-6xl mx-auto mb-8 md:mb-12 gap-4">
       <motion.div
@@ -18,7 +22,7 @@ export function Header() {
         </div>
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent dark:from-primary dark:to-primary/80">
-            Know Your Calories and Macros
+            {t('appName')}
           </h1>
         </div>
       </motion.div>
@@ -26,7 +30,9 @@ export function Header() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3, delay: 0.2 }}
+        className="flex items-center gap-2"
       >
+        <LanguageSwitcher />
         <ThemeToggle />
       </motion.div>
     </header>

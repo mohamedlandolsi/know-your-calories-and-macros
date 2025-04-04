@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { LanguageProvider } from "@/components/language/language-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,8 +37,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Analytics />
+          <LanguageProvider>
+            {children}
+            <Analytics />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingDown, Minus, TrendingUp, Pizza, Info } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 // Nutrition calculation utilities
 
@@ -233,6 +234,7 @@ const resultsVariants = {
 };
 
 export default function NutritionCalculator() {
+  const { t, dir } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [results, setResults] = useState<NutritionResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
@@ -286,7 +288,7 @@ export default function NutritionCalculator() {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto" dir={dir}>
       <Card className="w-full shadow-lg border-opacity-40 backdrop-blur-sm card-glass hover-lift">
         <CardHeader>
           <motion.div
@@ -296,12 +298,11 @@ export default function NutritionCalculator() {
           >
             <CardTitle className="text-center text-2xl md:text-3xl font-bold">
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                Know Your Calories and Macros
+                {t("appName")}
               </span>
             </CardTitle>
             <CardDescription className="text-center mt-2">
-              Calculate your calories and macronutrients based on your body
-              metrics and goals
+              {t("appDescription")}
             </CardDescription>
           </motion.div>
         </CardHeader>
@@ -312,8 +313,8 @@ export default function NutritionCalculator() {
             className="w-full"
           >
             <TabsList className="mb-6 mx-auto">
-              <TabsTrigger value="metric">Metric (kg/cm)</TabsTrigger>
-              <TabsTrigger value="imperial">Imperial (lbs/ft)</TabsTrigger>
+              <TabsTrigger value="metric">{t("metric")}</TabsTrigger>
+              <TabsTrigger value="imperial">{t("imperial")}</TabsTrigger>
             </TabsList>
 
             <Form {...form}>
@@ -332,7 +333,7 @@ export default function NutritionCalculator() {
                       name="gender"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                          <FormLabel>Gender</FormLabel>
+                          <FormLabel>{t("gender")}</FormLabel>
                           <FormControl>
                             <RadioGroup
                               className="flex gap-4"
@@ -341,14 +342,14 @@ export default function NutritionCalculator() {
                               <Radio
                                 name="gender"
                                 value="male"
-                                label="Male"
+                                label={t("male")}
                                 checked={field.value === "male"}
                                 onChange={() => field.onChange("male")}
                               />
                               <Radio
                                 name="gender"
                                 value="female"
-                                label="Female"
+                                label={t("female")}
                                 checked={field.value === "female"}
                                 onChange={() => field.onChange("female")}
                               />
@@ -367,7 +368,7 @@ export default function NutritionCalculator() {
                       name="age"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Age (years)</FormLabel>
+                          <FormLabel>{t("age")}</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -395,14 +396,14 @@ export default function NutritionCalculator() {
                         name="heightCm"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Height (cm)</FormLabel>
+                            <FormLabel>{t("heightMetric")}</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 min={100}
                                 max={250}
                                 step={0.1}
-                                placeholder="Height in cm"
+                                placeholder={t("heightMetricPlaceholder")}
                                 {...field}
                                 onChange={(e) =>
                                   field.onChange(
@@ -426,14 +427,14 @@ export default function NutritionCalculator() {
                         name="heightFt"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Height (ft&apos;in&quot;)</FormLabel>
+                            <FormLabel>{t("heightImperial")}</FormLabel>
                             <FormControl>
                               <div className="flex items-center">
                                 <Input
                                   type="number"
                                   min={3}
                                   max={8}
-                                  placeholder="Feet"
+                                  placeholder={t("heightFtPlaceholder")}
                                   {...field}
                                   onChange={(e) =>
                                     field.onChange(
@@ -447,7 +448,7 @@ export default function NutritionCalculator() {
                                   min={0}
                                   max={11.9}
                                   step={0.1}
-                                  placeholder="Inches"
+                                  placeholder={t("heightInPlaceholder")}
                                   value={form.watch("heightIn") || ""}
                                   onChange={(e) =>
                                     form.setValue(
@@ -474,14 +475,14 @@ export default function NutritionCalculator() {
                         name="weightKg"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Weight (kg)</FormLabel>
+                            <FormLabel>{t("weightMetric")}</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 min={30}
                                 max={300}
                                 step={0.1}
-                                placeholder="Weight in kg"
+                                placeholder={t("weightMetricPlaceholder")}
                                 {...field}
                                 onChange={(e) =>
                                   field.onChange(
@@ -505,14 +506,14 @@ export default function NutritionCalculator() {
                         name="weightLbs"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Weight (lbs)</FormLabel>
+                            <FormLabel>{t("weightImperial")}</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 min={60}
                                 max={700}
                                 step={0.1}
-                                placeholder="Weight in lbs"
+                                placeholder={t("weightImperialPlaceholder")}
                                 {...field}
                                 onChange={(e) =>
                                   field.onChange(
@@ -535,31 +536,31 @@ export default function NutritionCalculator() {
                       name="activityLevel"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Activity Level</FormLabel>
+                          <FormLabel>{t("activityLevel")}</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select activity level" />
+                                <SelectValue placeholder={t("activityLevelPlaceholder")} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="sedentary">
-                                Sedentary (little to no exercise)
+                                {t("sedentary")}
                               </SelectItem>
                               <SelectItem value="lightlyActive">
-                                Lightly Active (1-3 days/week)
+                                {t("lightlyActive")}
                               </SelectItem>
                               <SelectItem value="moderatelyActive">
-                                Moderately Active (3-5 days/week)
+                                {t("moderatelyActive")}
                               </SelectItem>
                               <SelectItem value="veryActive">
-                                Very Active (6-7 days/week)
+                                {t("veryActive")}
                               </SelectItem>
                               <SelectItem value="extraActive">
-                                Extra Active (very hard exercise & physical job)
+                                {t("extraActive")}
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -576,14 +577,14 @@ export default function NutritionCalculator() {
                       name="bodyFatPercentage"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Body Fat % (optional)</FormLabel>
+                          <FormLabel>{t("bodyFatPercentage")}</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
                               min={3}
                               max={50}
                               step={0.1}
-                              placeholder="Body fat percentage"
+                              placeholder={t("bodyFatPercentagePlaceholder")}
                               {...field}
                               value={field.value || ""}
                               onChange={(e) =>
@@ -596,7 +597,7 @@ export default function NutritionCalculator() {
                             />
                           </FormControl>
                           <FormDescription>
-                            Optional: Enter for more precise calculations
+                            {t("bodyFatPercentageDescription")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -611,25 +612,25 @@ export default function NutritionCalculator() {
                       name="goal"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Goal</FormLabel>
+                          <FormLabel>{t("goal")}</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select your goal" />
+                                <SelectValue placeholder={t("goal")} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="cut">
-                                Cut (lose fat)
+                                {t("cut")}
                               </SelectItem>
                               <SelectItem value="maintain">
-                                Maintain (suitable for most people)
+                                {t("maintain")}
                               </SelectItem>
                               <SelectItem value="bulk">
-                                Bulk (gain weight)
+                                {t("bulk")}
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -672,10 +673,10 @@ export default function NutritionCalculator() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
-                        Calculating...
+                        {t("calculating")}
                       </span>
                     ) : (
-                      "Calculate Your Nutrition"
+                      t("calculate")
                     )}
                   </Button>
                 </motion.div>
@@ -696,7 +697,7 @@ export default function NutritionCalculator() {
                 <div className="h-px w-12 bg-primary/50"></div>
                 <h3 className="text-xl font-semibold text-center relative">
                   <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                    Your Results
+                    {t("results")}
                   </span>
                 </h3>
                 <div className="h-px w-12 bg-primary/50"></div>
@@ -722,7 +723,7 @@ export default function NutritionCalculator() {
                             <TrendingUp className="h-5 w-5 text-primary" />
                           )}
                         </div>
-                        Daily Calories
+                        {t("dailyCalories")}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -733,11 +734,11 @@ export default function NutritionCalculator() {
                         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
                         <p>
                           {form.getValues().goal === "cut" &&
-                            "Caloric deficit for fat loss (10-20% below maintenance)"}
+                            t("caloricDeficit")}
                           {form.getValues().goal === "maintain" &&
-                            "Calories to maintain your current weight"}
+                            t("caloricMaintenance")}
                           {form.getValues().goal === "bulk" &&
-                            "Caloric surplus for muscle gain (up to 10% above maintenance)"}
+                            t("caloricSurplus")}
                         </p>
                       </div>
                     </CardContent>
@@ -755,7 +756,7 @@ export default function NutritionCalculator() {
                         <div className="p-1.5 rounded-md bg-primary/20">
                           <Pizza className="h-5 w-5 text-primary" />
                         </div>
-                        Macronutrients
+                        {t("macronutrients")}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -765,7 +766,7 @@ export default function NutritionCalculator() {
                             <Badge className="bg-[--chart-1] px-2 font-bold">
                               P
                             </Badge>
-                            <span className="font-medium">Protein</span>
+                            <span className="font-medium">{t("protein")}</span>
                           </div>
                           <span className="font-medium">
                             {results.protein.min}-{results.protein.max}g
@@ -777,7 +778,7 @@ export default function NutritionCalculator() {
                             <Badge className="bg-[--chart-2] px-2 font-bold">
                               F
                             </Badge>
-                            <span className="font-medium">Fats</span>
+                            <span className="font-medium">{t("fats")}</span>
                           </div>
                           <span className="font-medium">
                             {results.fat.min}-{results.fat.max}g
@@ -789,7 +790,7 @@ export default function NutritionCalculator() {
                             <Badge className="bg-[--chart-3] px-2 font-bold">
                               C
                             </Badge>
-                            <span className="font-medium">Carbs</span>
+                            <span className="font-medium">{t("carbs")}</span>
                           </div>
                           <span className="font-medium">
                             {results.carbs.min}-{results.carbs.max}g
@@ -811,19 +812,12 @@ export default function NutritionCalculator() {
                   <Info className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      These values are estimations based on the Mifflin-St Jeor
-                      equation. For best results:
+                      {t("resultsDescription")}
                     </p>
                     <ul className="text-sm text-muted-foreground mt-2 list-disc pl-4 space-y-1">
-                      <li>
-                        Consume sufficient protein to maintain or build muscle
-                        mass
-                      </li>
-                      <li>Distribute your meals evenly throughout the day</li>
-                      <li>
-                        Adjust your intake based on your actual results over 2-4
-                        weeks
-                      </li>
+                      <li>{t("resultsTip1")}</li>
+                      <li>{t("resultsTip2")}</li>
+                      <li>{t("resultsTip3")}</li>
                     </ul>
                   </div>
                 </div>
