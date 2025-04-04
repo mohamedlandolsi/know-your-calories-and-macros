@@ -626,10 +626,10 @@ export default function NutritionCalculator() {
                                 Cut (lose fat)
                               </SelectItem>
                               <SelectItem value="maintain">
-                                Maintain (current weight)
+                                Maintain (suitable for most people)
                               </SelectItem>
                               <SelectItem value="bulk">
-                                Bulk (gain muscle)
+                                Bulk (gain weight)
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -647,7 +647,7 @@ export default function NutritionCalculator() {
                 >
                   <Button
                     type="submit"
-                    className="w-full font-semibold text-base"
+                    className="w-full font-semibold text-base cursor-pointer"
                     disabled={isCalculating}
                   >
                     {isCalculating ? (
