@@ -144,11 +144,20 @@
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .dark .card-glass {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .card-glass:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .dark .card-glass:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   }
 
   /* Animations classes */
@@ -168,6 +177,11 @@
   @keyframes slideInFromBottom {
     from { transform: translateY(1rem); }
     to { transform: translateY(0); }
+  }
+
+  /* Enhanced text gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent;
   }
 
   /* Fix spacing on large screens */

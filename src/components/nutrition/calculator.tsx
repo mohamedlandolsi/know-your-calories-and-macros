@@ -1,16 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { motion } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, Radio } from "@/components/ui/radio-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, Radio } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TrendingDown, Minus, TrendingUp, Pizza, Info } from "lucide-react";
 
 // Nutrition calculation utilities
 
@@ -60,7 +82,12 @@ export function lbsToKg(lbs: number): number {
 }
 
 // Mifflin-St Jeor equation for BMR (Basal Metabolic Rate)
-function calculateBMR(gender: Gender, weight: number, height: number, age: number): number {
+function calculateBMR(
+  gender: Gender,
+  weight: number,
+  height: number,
+  age: number
+): number {
   if (gender === "male") {
     return 10 * weight + 6.25 * height - 5 * age + 5;
   } else {
@@ -69,12 +96,18 @@ function calculateBMR(gender: Gender, weight: number, height: number, age: numbe
 }
 
 // Calculate maintenance calories
-function calculateMaintenanceCalories(bmr: number, activityLevel: ActivityLevel): number {
+function calculateMaintenanceCalories(
+  bmr: number,
+  activityLevel: ActivityLevel
+): number {
   return bmr * activityMultipliers[activityLevel];
 }
 
 // Calculate calories based on goal
-function calculateCaloriesForGoal(maintenanceCalories: number, goal: Goal): MacroRange {
+function calculateCaloriesForGoal(
+  maintenanceCalories: number,
+  goal: Goal
+): MacroRange {
   switch (goal) {
     case "cut":
       return {
@@ -111,7 +144,11 @@ function calculateFat(calories: MacroRange): MacroRange {
 }
 
 // Calculate remaining calories as carbohydrates
-function calculateCarbs(calories: MacroRange, protein: MacroRange, fat: MacroRange): MacroRange {
+function calculateCarbs(
+  calories: MacroRange,
+  protein: MacroRange,
+  fat: MacroRange
+): MacroRange {
   // Protein and carbs have 4 calories per gram, fat has 9 calories per gram
   const minProteinCalories = protein.min * 4;
   const maxProteinCalories = protein.max * 4;
@@ -127,7 +164,10 @@ function calculateCarbs(calories: MacroRange, protein: MacroRange, fat: MacroRan
 // Main function to calculate all nutrition requirements
 export function calculateNutrition(input: CalculationInput): NutritionResult {
   const bmr = calculateBMR(input.gender, input.weight, input.height, input.age);
-  const maintenanceCalories = calculateMaintenanceCalories(bmr, input.activityLevel);
+  const maintenanceCalories = calculateMaintenanceCalories(
+    bmr,
+    input.activityLevel
+  );
   const calories = calculateCaloriesForGoal(maintenanceCalories, input.goal);
   const protein = calculateProtein(input.weight);
   const fat = calculateFat(calories);
@@ -141,61 +181,61 @@ export function calculateNutrition(input: CalculationInput): NutritionResult {
   };
 }
 
-type UnitSystem = "metric" | "imperial"
+type UnitSystem = "metric" | "imperial";
 
 interface CalculatorFormValues {
-  gender: "male" | "female"
-  age: number
-  heightCm?: number
-  heightFt?: number
-  heightIn?: number
-  weightKg?: number
-  weightLbs?: number
-  activityLevel: keyof typeof activityMultipliers
-  bodyFatPercentage?: number
-  goal: "cut" | "maintain" | "bulk"
+  gender: "male" | "female";
+  age: number;
+  heightCm?: number;
+  heightFt?: number;
+  heightIn?: number;
+  weightKg?: number;
+  weightLbs?: number;
+  activityLevel: keyof typeof activityMultipliers;
+  bodyFatPercentage?: number;
+  goal: "cut" | "maintain" | "bulk";
 }
 
 // Form animations
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
       staggerChildren: 0.1,
-      delayChildren: 0.1
-    }
-  }
-}
+      delayChildren: 0.1,
+    },
+  },
+};
 
 const formItemVariants = {
   hidden: { opacity: 0, y: 10 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.3 }
-  }
-}
+    transition: { duration: 0.3 },
+  },
+};
 
 const resultsVariants = {
   hidden: { opacity: 0, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     scale: 1,
-    transition: { 
+    transition: {
       duration: 0.5,
       type: "spring",
-      stiffness: 100 
-    }
-  }
-}
+      stiffness: 100,
+    },
+  },
+};
 
 export default function NutritionCalculator() {
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric")
-  const [results, setResults] = useState<NutritionResult | null>(null)
-  const [isCalculating, setIsCalculating] = useState(false)
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
+  const [results, setResults] = useState<NutritionResult | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   const form = useForm<CalculatorFormValues>({
     defaultValues: {
@@ -208,24 +248,24 @@ export default function NutritionCalculator() {
       weightLbs: 165,
       activityLevel: "moderatelyActive",
       goal: "maintain",
-    }
-  })
+    },
+  });
 
   function onSubmit(data: CalculatorFormValues) {
-    setIsCalculating(true)
-    
+    setIsCalculating(true);
+
     // Short delay to show animation
     setTimeout(() => {
       try {
         // Convert imperial to metric if needed
-        let heightCm = data.heightCm || 0
-        let weightKg = data.weightKg || 0
-        
+        let heightCm = data.heightCm || 0;
+        let weightKg = data.weightKg || 0;
+
         if (unitSystem === "imperial") {
-          heightCm = imperialHeightToCm(data.heightFt || 0, data.heightIn || 0)
-          weightKg = lbsToKg(data.weightLbs || 0)
+          heightCm = imperialHeightToCm(data.heightFt || 0, data.heightIn || 0);
+          weightKg = lbsToKg(data.weightLbs || 0);
         }
-        
+
         const result = calculateNutrition({
           gender: data.gender,
           age: data.age,
@@ -234,15 +274,15 @@ export default function NutritionCalculator() {
           activityLevel: data.activityLevel,
           bodyFatPercentage: data.bodyFatPercentage,
           goal: data.goal,
-        })
-        
-        setResults(result)
+        });
+
+        setResults(result);
       } catch (error) {
-        console.error("Calculation error:", error)
+        console.error("Calculation error:", error);
       } finally {
-        setIsCalculating(false)
+        setIsCalculating(false);
       }
-    }, 500)
+    }, 500);
   }
 
   return (
@@ -254,20 +294,31 @@ export default function NutritionCalculator() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <CardTitle className="text-center text-2xl md:text-3xl font-bold">MacroCalc</CardTitle>
-            <CardDescription className="text-center mt-2">Calculate your calories and macronutrients based on your body metrics and goals</CardDescription>
+            <CardTitle className="text-center text-2xl md:text-3xl font-bold">
+              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Know Your Calories and Macros
+              </span>
+            </CardTitle>
+            <CardDescription className="text-center mt-2">
+              Calculate your calories and macronutrients based on your body
+              metrics and goals
+            </CardDescription>
           </motion.div>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="metric" onValueChange={(v) => setUnitSystem(v as UnitSystem)} className="w-full">
+          <Tabs
+            defaultValue="metric"
+            onValueChange={(v) => setUnitSystem(v as UnitSystem)}
+            className="w-full"
+          >
             <TabsList className="mb-6 mx-auto">
               <TabsTrigger value="metric">Metric (kg/cm)</TabsTrigger>
               <TabsTrigger value="imperial">Imperial (lbs/ft)</TabsTrigger>
             </TabsList>
 
             <Form {...form}>
-              <motion.form 
-                onSubmit={form.handleSubmit(onSubmit)} 
+              <motion.form
+                onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
                 variants={formVariants}
                 initial="hidden"
@@ -283,21 +334,21 @@ export default function NutritionCalculator() {
                         <FormItem className="space-y-1">
                           <FormLabel>Gender</FormLabel>
                           <FormControl>
-                            <RadioGroup 
-                              className="flex gap-4" 
+                            <RadioGroup
+                              className="flex gap-4"
                               onBlur={field.onBlur}
                             >
-                              <Radio 
-                                name="gender" 
-                                value="male" 
-                                label="Male" 
+                              <Radio
+                                name="gender"
+                                value="male"
+                                label="Male"
                                 checked={field.value === "male"}
                                 onChange={() => field.onChange("male")}
                               />
-                              <Radio 
-                                name="gender" 
-                                value="female" 
-                                label="Female" 
+                              <Radio
+                                name="gender"
+                                value="female"
+                                label="Female"
                                 checked={field.value === "female"}
                                 onChange={() => field.onChange("female")}
                               />
@@ -323,7 +374,11 @@ export default function NutritionCalculator() {
                               min={15}
                               max={100}
                               {...field}
-                              onChange={(e) => field.onChange(parseInt(e.target.value, 10) || "")}
+                              onChange={(e) =>
+                                field.onChange(
+                                  parseInt(e.target.value, 10) || ""
+                                )
+                              }
                             />
                           </FormControl>
                           <FormMessage />
@@ -349,7 +404,11 @@ export default function NutritionCalculator() {
                                 step={0.1}
                                 placeholder="Height in cm"
                                 {...field}
-                                onChange={(e) => field.onChange(parseFloat(e.target.value) || "")}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    parseFloat(e.target.value) || ""
+                                  )
+                                }
                               />
                             </FormControl>
                             <FormMessage />
@@ -376,7 +435,11 @@ export default function NutritionCalculator() {
                                   max={8}
                                   placeholder="Feet"
                                   {...field}
-                                  onChange={(e) => field.onChange(parseInt(e.target.value, 10) || "")}
+                                  onChange={(e) =>
+                                    field.onChange(
+                                      parseInt(e.target.value, 10) || ""
+                                    )
+                                  }
                                   className="w-1/2 rounded-r-none"
                                 />
                                 <Input
@@ -386,7 +449,12 @@ export default function NutritionCalculator() {
                                   step={0.1}
                                   placeholder="Inches"
                                   value={form.watch("heightIn") || ""}
-                                  onChange={(e) => form.setValue("heightIn", parseFloat(e.target.value) || 0)}
+                                  onChange={(e) =>
+                                    form.setValue(
+                                      "heightIn",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
                                   className="w-1/2 rounded-l-none border-l-0"
                                 />
                               </div>
@@ -415,7 +483,11 @@ export default function NutritionCalculator() {
                                 step={0.1}
                                 placeholder="Weight in kg"
                                 {...field}
-                                onChange={(e) => field.onChange(parseFloat(e.target.value) || "")}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    parseFloat(e.target.value) || ""
+                                  )
+                                }
                               />
                             </FormControl>
                             <FormMessage />
@@ -442,7 +514,11 @@ export default function NutritionCalculator() {
                                 step={0.1}
                                 placeholder="Weight in lbs"
                                 {...field}
-                                onChange={(e) => field.onChange(parseFloat(e.target.value) || "")}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    parseFloat(e.target.value) || ""
+                                  )
+                                }
                               />
                             </FormControl>
                             <FormMessage />
@@ -460,18 +536,31 @@ export default function NutritionCalculator() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Activity Level</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select activity level" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="sedentary">Sedentary (little to no exercise)</SelectItem>
-                              <SelectItem value="lightlyActive">Lightly Active (1-3 days/week)</SelectItem>
-                              <SelectItem value="moderatelyActive">Moderately Active (3-5 days/week)</SelectItem>
-                              <SelectItem value="veryActive">Very Active (6-7 days/week)</SelectItem>
-                              <SelectItem value="extraActive">Extra Active (very hard exercise & physical job)</SelectItem>
+                              <SelectItem value="sedentary">
+                                Sedentary (little to no exercise)
+                              </SelectItem>
+                              <SelectItem value="lightlyActive">
+                                Lightly Active (1-3 days/week)
+                              </SelectItem>
+                              <SelectItem value="moderatelyActive">
+                                Moderately Active (3-5 days/week)
+                              </SelectItem>
+                              <SelectItem value="veryActive">
+                                Very Active (6-7 days/week)
+                              </SelectItem>
+                              <SelectItem value="extraActive">
+                                Extra Active (very hard exercise & physical job)
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -497,10 +586,18 @@ export default function NutritionCalculator() {
                               placeholder="Body fat percentage"
                               {...field}
                               value={field.value || ""}
-                              onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+                              onChange={(e) =>
+                                field.onChange(
+                                  e.target.value
+                                    ? parseFloat(e.target.value)
+                                    : undefined
+                                )
+                              }
                             />
                           </FormControl>
-                          <FormDescription>Optional: Enter for more precise calculations</FormDescription>
+                          <FormDescription>
+                            Optional: Enter for more precise calculations
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -515,16 +612,25 @@ export default function NutritionCalculator() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Goal</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select your goal" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="cut">Cut (lose fat)</SelectItem>
-                              <SelectItem value="maintain">Maintain (current weight)</SelectItem>
-                              <SelectItem value="bulk">Bulk (gain muscle)</SelectItem>
+                              <SelectItem value="cut">
+                                Cut (lose fat)
+                              </SelectItem>
+                              <SelectItem value="maintain">
+                                Maintain (current weight)
+                              </SelectItem>
+                              <SelectItem value="bulk">
+                                Bulk (gain muscle)
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -534,25 +640,43 @@ export default function NutritionCalculator() {
                   </motion.div>
                 </div>
 
-                <motion.div 
+                <motion.div
                   variants={formItemVariants}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Button 
-                    type="submit" 
-                    className="w-full font-semibold text-base" 
+                  <Button
+                    type="submit"
+                    className="w-full font-semibold text-base"
                     disabled={isCalculating}
                   >
                     {isCalculating ? (
                       <span className="flex items-center gap-2">
-                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         Calculating...
                       </span>
-                    ) : "Calculate Your Nutrition"}
+                    ) : (
+                      "Calculate Your Nutrition"
+                    )}
                   </Button>
                 </motion.div>
               </motion.form>
@@ -562,33 +686,60 @@ export default function NutritionCalculator() {
 
         {results && (
           <CardFooter className="flex flex-col p-6">
-            <motion.div 
+            <motion.div
               className="w-full border-t border-border pt-6"
               variants={resultsVariants}
               initial="hidden"
               animate="visible"
             >
-              <h3 className="text-xl font-semibold mb-6 text-center">Your Results</h3>
-              
+              <div className="flex items-center justify-center mb-6 gap-2">
+                <div className="h-px w-12 bg-primary/50"></div>
+                <h3 className="text-xl font-semibold text-center relative">
+                  <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                    Your Results
+                  </span>
+                </h3>
+                <div className="h-px w-12 bg-primary/50"></div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                  <Card className="bg-secondary/20 hover:bg-secondary/30 transition-colors">
+                  <Card className="bg-secondary/20 hover:bg-secondary/30 transition-colors border-primary/20">
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-xl">Daily Calories</CardTitle>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <div className="p-1.5 rounded-md bg-primary/20">
+                          {form.getValues().goal === "cut" && (
+                            <TrendingDown className="h-5 w-5 text-primary" />
+                          )}
+                          {form.getValues().goal === "maintain" && (
+                            <Minus className="h-5 w-5 text-primary" />
+                          )}
+                          {form.getValues().goal === "bulk" && (
+                            <TrendingUp className="h-5 w-5 text-primary" />
+                          )}
+                        </div>
+                        Daily Calories
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-3xl font-bold text-primary">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                         {results.calories.min} - {results.calories.max}
                       </div>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        {form.getValues().goal === "cut" && "Caloric deficit for fat loss"}
-                        {form.getValues().goal === "maintain" && "Calories to maintain current weight"}
-                        {form.getValues().goal === "bulk" && "Caloric surplus for muscle gain"}
-                      </p>
+                      <div className="text-sm text-muted-foreground mt-3 flex items-start gap-2">
+                        <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                        <p>
+                          {form.getValues().goal === "cut" &&
+                            "Caloric deficit for fat loss (10-20% below maintenance)"}
+                          {form.getValues().goal === "maintain" &&
+                            "Calories to maintain your current weight"}
+                          {form.getValues().goal === "bulk" &&
+                            "Caloric surplus for muscle gain (up to 10% above maintenance)"}
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -598,34 +749,51 @@ export default function NutritionCalculator() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.3 }}
                 >
-                  <Card className="bg-secondary/20 hover:bg-secondary/30 transition-colors">
+                  <Card className="bg-secondary/20 hover:bg-secondary/30 transition-colors border-primary/20">
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-xl">Macronutrients</CardTitle>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <div className="p-1.5 rounded-md bg-primary/20">
+                          <Pizza className="h-5 w-5 text-primary" />
+                        </div>
+                        Macronutrients
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-3">
+                      <div className="space-y-4 mt-1">
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
-                            <Badge className="bg-[--chart-1]">P</Badge>
-                            <span>Protein</span>
+                            <Badge className="bg-[--chart-1] px-2 font-bold">
+                              P
+                            </Badge>
+                            <span className="font-medium">Protein</span>
                           </div>
-                          <span className="font-medium">{results.protein.min}-{results.protein.max}g</span>
+                          <span className="font-medium">
+                            {results.protein.min}-{results.protein.max}g
+                          </span>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
-                            <Badge className="bg-[--chart-2]">F</Badge>
-                            <span>Fats</span>
+                            <Badge className="bg-[--chart-2] px-2 font-bold">
+                              F
+                            </Badge>
+                            <span className="font-medium">Fats</span>
                           </div>
-                          <span className="font-medium">{results.fat.min}-{results.fat.max}g</span>
+                          <span className="font-medium">
+                            {results.fat.min}-{results.fat.max}g
+                          </span>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
-                            <Badge className="bg-[--chart-3]">C</Badge>
-                            <span>Carbs</span>
+                            <Badge className="bg-[--chart-3] px-2 font-bold">
+                              C
+                            </Badge>
+                            <span className="font-medium">Carbs</span>
                           </div>
-                          <span className="font-medium">{results.carbs.min}-{results.carbs.max}g</span>
+                          <span className="font-medium">
+                            {results.carbs.min}-{results.carbs.max}g
+                          </span>
                         </div>
                       </div>
                     </CardContent>
@@ -633,19 +801,37 @@ export default function NutritionCalculator() {
                 </motion.div>
               </div>
 
-              <motion.p 
-                className="text-sm text-muted-foreground text-center mt-6"
+              <motion.div
+                className="mt-6 p-4 rounded-lg bg-secondary/10 border border-border"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.5 }}
               >
-                These values are estimations based on the Mifflin-St Jeor equation. 
-                Adjust your intake based on your actual results over time.
-              </motion.p>
+                <div className="flex gap-2 items-start">
+                  <Info className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">
+                      These values are estimations based on the Mifflin-St Jeor
+                      equation. For best results:
+                    </p>
+                    <ul className="text-sm text-muted-foreground mt-2 list-disc pl-4 space-y-1">
+                      <li>
+                        Consume sufficient protein to maintain or build muscle
+                        mass
+                      </li>
+                      <li>Distribute your meals evenly throughout the day</li>
+                      <li>
+                        Adjust your intake based on your actual results over 2-4
+                        weeks
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </CardFooter>
         )}
       </Card>
     </div>
-  )
+  );
 }
