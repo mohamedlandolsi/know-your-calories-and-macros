@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://know-your-calories-and-macros.vercel.app/sitemap.xml

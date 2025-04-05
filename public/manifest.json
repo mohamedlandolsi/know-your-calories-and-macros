@@ -1,0 +1,27 @@
+{
+  "name": "Know Your Calories and Macros - Nutrition Calculator",
+  "short_name": "Calories & Macros",
+  "description": "Calculate your daily calorie and macronutrient needs based on your body metrics and fitness goals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4ADE80",
+  "icons": [
+    {
+      "src": "/images/favicon_io/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/favicon_io/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "orientation": "portrait",
+  "categories": ["health", "fitness", "nutrition"]
+}

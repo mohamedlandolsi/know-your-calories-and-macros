@@ -17,6 +17,15 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     setDir(newDir);
     document.documentElement.dir = newDir;
     document.documentElement.lang = language;
+    
+    // Add hreflang meta for search engines
+    const existingCanonical = document.querySelector('link[rel="canonical"]');
+    if (!existingCanonical) {
+      const canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      canonicalLink.setAttribute('href', 'https://know-your-calories-and-macros.vercel.app' + (language === 'en' ? '/' : `/${language}`));
+      document.head.appendChild(canonicalLink);
+    }
   }, [language]);
   
   // Function to get translation
