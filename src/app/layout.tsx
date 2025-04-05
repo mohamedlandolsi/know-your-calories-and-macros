@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     siteName: "Know Your Calories and Macros",
     images: [
       {
-        url: "https://know-your-calories-and-macros.vercel.app/favicon_io/android-chrome-512x512.png",
+        url: "/images/favicon_io/android-chrome-512x512.png",
         width: 512,
         height: 512,
         alt: "Know Your Calories and Macros Calculator",
@@ -74,15 +74,20 @@ export const metadata: Metadata = {
     title: "Know Your Calories and Macros - Nutrition Calculator",
     description:
       "Calculate your daily calorie and macronutrient needs based on your body metrics and fitness goals. Free online nutrition calculator.",
-    images: [
-      "https://know-your-calories-and-macros.vercel.app/favicon_io/android-chrome-512x512.png",
-    ],
+    images: ["/images/favicon_io/android-chrome-512x512.png"],
     creator: "@nutritioncalc",
   },
   icons: {
-    icon: "/favicon_io/favicon.ico",
-    apple: "/favicon_io/apple-touch-icon.png",
-    shortcut: "/favicon_io/favicon.ico",
+    icon: [
+      { url: "/images/favicon_io/favicon.ico", sizes: "any" },
+      { url: "/images/favicon_io/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/favicon_io/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: { url: "/images/favicon_io/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    other: [
+      { url: "/images/favicon_io/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/images/favicon_io/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
   },
   viewport: {
     width: "device-width",
@@ -103,6 +108,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-1830337896450418" />
+        <link rel="manifest" href="/images/favicon_io/site.webmanifest" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
