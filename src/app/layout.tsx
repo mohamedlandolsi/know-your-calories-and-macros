@@ -97,10 +97,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const adsensePublisherId = 'ca-pub-1830337896450418';
-  
+  const adsensePublisherId = "ca-pub-1830337896450418";
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-1830337896450418" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
