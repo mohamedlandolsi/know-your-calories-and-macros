@@ -2,9 +2,11 @@
 
 import NutritionCalculator from "@/components/nutrition/calculator";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { JsonLd } from "@/components/seo/json-ld";
+import AdBanner from "@/components/ads/ad-banner";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -36,6 +38,14 @@ export default function Home() {
       <JsonLd data={calculatorJsonLd} />
       <div className="w-full max-w-6xl mx-auto">
         <Header />
+        
+        {/* Top ad banner before calculator */}
+        <AdBanner 
+          slot="5486274173" 
+          format="horizontal" 
+          className="mb-8" 
+        />
+        
         <motion.div 
           className="w-full max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -48,6 +58,15 @@ export default function Home() {
         >
           <NutritionCalculator />
         </motion.div>
+        
+        {/* Bottom ad banner after calculator */}
+        <AdBanner 
+          slot="8293141276" 
+          format="rectangle" 
+          className="mt-8 max-w-4xl mx-auto" 
+        />
+        
+        <Footer />
       </div>
     </main>
   );

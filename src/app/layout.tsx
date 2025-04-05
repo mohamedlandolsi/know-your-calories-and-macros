@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { LanguageProvider } from "@/components/language/language-provider";
+import GoogleAdSense from "@/components/ads/google-adsense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,6 +97,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const adsensePublisherId = 'ca-pub-1830337896450418';
+  
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
@@ -110,6 +113,7 @@ export default function RootLayout({
           <LanguageProvider>
             {children}
             <Analytics />
+            <GoogleAdSense client={adsensePublisherId} />
           </LanguageProvider>
         </ThemeProvider>
       </body>
