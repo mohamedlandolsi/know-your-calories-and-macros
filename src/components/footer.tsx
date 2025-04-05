@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AdDisclaimer from "./ads/ad-disclaimer";
 
 export function Footer() {
   return (
@@ -12,8 +11,7 @@ export function Footer() {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="border-t border-border pt-6">
-          <AdDisclaimer />
-          <div className="text-xs text-center text-muted-foreground mt-2">
+          <div className="text-xs text-center text-muted-foreground">
             © {new Date().getFullYear()} Know Your Calories and Macros
           </div>
         </div>

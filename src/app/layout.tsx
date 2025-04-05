@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     siteName: "Know Your Calories and Macros",
     images: [
       {
-        url: "https://know-your-calories-and-macros.vercel.app/images/og-image.png",
-        width: 1200,
-        height: 630,
+        url: "/favicon_io/android-chrome-512x512.png",
+        width: 512,
+        height: 512,
         alt: "Know Your Calories and Macros Calculator",
       },
     ],
@@ -74,15 +74,13 @@ export const metadata: Metadata = {
     title: "Know Your Calories and Macros - Nutrition Calculator",
     description:
       "Calculate your daily calorie and macronutrient needs based on your body metrics and fitness goals. Free online nutrition calculator.",
-    images: [
-      "https://know-your-calories-and-macros.vercel.app/images/og-image.png",
-    ],
+    images: ["/favicon_io/android-chrome-512x512.png"],
     creator: "@nutritioncalc",
   },
   icons: {
-    icon: "/images/favicon_io/favicon.ico",
-    apple: "/images/favicon_io/apple-touch-icon.png",
-    shortcut: "/images/favicon_io/favicon.ico",
+    icon: "/favicon_io/favicon.ico",
+    apple: "/favicon_io/apple-touch-icon.png",
+    shortcut: "/favicon_io/favicon.ico",
   },
   viewport: {
     width: "device-width",

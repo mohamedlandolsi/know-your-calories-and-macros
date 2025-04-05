@@ -6,10 +6,14 @@ import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { JsonLd } from "@/components/seo/json-ld";
+// Keep the import but we'll conditionally render the components
 import AdBanner from "@/components/ads/ad-banner";
 
 export default function Home() {
   const { t } = useLanguage();
+  
+  // Set this to true when AdSense is verified
+  const showAds = false;
   
   // Structured data for the calculator
   const calculatorJsonLd = {
@@ -39,32 +43,65 @@ export default function Home() {
       <div className="w-full max-w-6xl mx-auto">
         <Header />
         
-        {/* Top ad banner before calculator */}
-        <AdBanner 
-          slot="5486274173" 
-          format="horizontal" 
-          className="mb-8" 
-        />
+        {/* Desktop side ads - only render if showAds is true */}
+        {showAds && (
+          <>
+            <div className="fixed hidden xl:block z-10" style={{ 
+              left: 'calc(50% - 700px)',
+              maxWidth: '160px',
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }}>
+              <AdBanner 
+                slot="5486274173" 
+                format="vertical" 
+                responsive={false} 
+                className="w-[160px]" 
+              />
+            </div>
+            
+            <div className="fixed hidden xl:block z-10" style={{
+              right: 'calc(50% - 700px)',
+              maxWidth: '160px',
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }}>
+              <AdBanner 
+                slot="2913748569" 
+                format="vertical" 
+                responsive={false}
+                className="w-[160px]" 
+              />
+            </div>
+          </>
+        )}
         
-        <motion.div 
-          className="w-full max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 0.6,
-            delay: 0.3,
-            ease: [0.22, 1, 0.36, 1]
-          }}
-        >
-          <NutritionCalculator />
-        </motion.div>
-        
-        {/* Bottom ad banner after calculator */}
-        <AdBanner 
-          slot="8293141276" 
-          format="rectangle" 
-          className="mt-8 max-w-4xl mx-auto" 
-        />
+        {/* Main content */}
+        <div className="relative w-full max-w-4xl mx-auto">
+          <motion.div 
+            className="w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.6,
+              delay: 0.3,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+          >
+            <NutritionCalculator />
+          </motion.div>
+          
+          {/* Mobile-only bottom ad - only render if showAds is true */}
+          {showAds && (
+            <div className="mt-8 xl:hidden">
+              <AdBanner 
+                slot="8293141276" 
+                format="rectangle" 
+                className="max-w-4xl mx-auto" 
+              />
+            </div>
+          )}
+        </div>
         
         <Footer />
       </div>
