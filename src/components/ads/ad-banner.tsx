@@ -2,19 +2,22 @@
 
 import { useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
+import ConditionalAdContainer from './conditional-ad-container';
 
 interface AdBannerProps {
   slot: string;
   format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
   responsive?: boolean;
   className?: string;
+  requiresResults?: boolean;
 }
 
 export default function AdBanner({ 
   slot, 
   format = 'auto', 
   responsive = true,
-  className = ''
+  className = '',
+  requiresResults = true
 }: AdBannerProps) {
   const adRef = useRef<HTMLDivElement>(null);
 
@@ -31,20 +34,22 @@ export default function AdBanner({
   }, []);
 
   return (
-    <Card className={`overflow-hidden my-4 ${className}`}>
-      <div className="ad-container text-center">
-        <div ref={adRef}>
-          <ins
-            className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-1830337896450418"
-            data-ad-slot={slot}
-            data-ad-format={format}
-            data-full-width-responsive={responsive ? 'true' : 'false'}
-          />
+    <ConditionalAdContainer requiresResults={requiresResults}>
+      <Card className={`overflow-hidden my-4 ${className}`}>
+        <div className="ad-container text-center">
+          <div ref={adRef}>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-1830337896450418"
+              data-ad-slot={slot}
+              data-ad-format={format}
+              data-full-width-responsive={responsive ? 'true' : 'false'}
+            />
+          </div>
+          <div className="text-xs text-muted-foreground pt-1 pb-2">Advertisement</div>
         </div>
-        <div className="text-xs text-muted-foreground pt-1 pb-2">Advertisement</div>
-      </div>
-    </Card>
+      </Card>
+    </ConditionalAdContainer>
   );
 }

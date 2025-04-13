@@ -34,6 +34,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingDown, Minus, TrendingUp, Pizza, Info } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { useContentState } from "@/lib/content-state";
 
 // Nutrition calculation utilities
 
@@ -235,6 +236,7 @@ const resultsVariants = {
 
 export default function NutritionCalculator() {
   const { t, dir } = useLanguage();
+  const { setHasCalculatorResults } = useContentState();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [results, setResults] = useState<NutritionResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
@@ -280,6 +282,8 @@ export default function NutritionCalculator() {
         });
 
         setResults(result);
+        // Update the content state to indicate we have calculator results
+        setHasCalculatorResults(true);
 
         // Scroll to results after a short delay to ensure DOM is updated
         setTimeout(() => {

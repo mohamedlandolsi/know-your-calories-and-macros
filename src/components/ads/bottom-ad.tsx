@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
+import ConditionalAdContainer from './conditional-ad-container';
 
 interface BottomAdProps {
   slot: string;
@@ -24,20 +25,22 @@ export default function BottomAd({ slot, className = '' }: BottomAdProps) {
   }, []);
 
   return (
-    <Card className={`overflow-hidden my-4 ${className} lg:hidden`}>
-      <div className="ad-container text-center">
-        <div ref={adRef}>
-          <ins
-            className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-1830337896450418"
-            data-ad-slot={slot}
-            data-ad-format="horizontal"
-            data-full-width-responsive="true"
-          />
+    <ConditionalAdContainer>
+      <Card className={`overflow-hidden my-4 ${className} lg:hidden`}>
+        <div className="ad-container text-center">
+          <div ref={adRef}>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-1830337896450418"
+              data-ad-slot={slot}
+              data-ad-format="horizontal"
+              data-full-width-responsive="true"
+            />
+          </div>
+          <div className="text-xs text-muted-foreground pt-1 pb-2">Advertisement</div>
         </div>
-        <div className="text-xs text-muted-foreground pt-1 pb-2">Advertisement</div>
-      </div>
-    </Card>
+      </Card>
+    </ConditionalAdContainer>
   );
 }

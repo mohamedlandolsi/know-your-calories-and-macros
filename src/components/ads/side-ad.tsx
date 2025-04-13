@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
+import ConditionalAdContainer from './conditional-ad-container';
 
 interface SideAdProps {
   slot: string;
@@ -23,19 +24,21 @@ export default function SideAd({ slot, position }: SideAdProps) {
   }, []);
 
   return (
-    <div className={`side-ad side-ad-${position} hidden lg:block`}>
-      <div ref={adRef}>
-        <ins
-          className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-1830337896450418"
-          data-ad-slot={slot}
-          data-ad-format="vertical"
-        />
+    <ConditionalAdContainer>
+      <div className={`side-ad side-ad-${position} hidden lg:block`}>
+        <div ref={adRef}>
+          <ins
+            className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-1830337896450418"
+            data-ad-slot={slot}
+            data-ad-format="vertical"
+          />
+        </div>
+        <div className="text-xs text-muted-foreground text-center mt-2">
+          Advertisement
+        </div>
       </div>
-      <div className="text-xs text-muted-foreground text-center mt-2">
-        Advertisement
-      </div>
-    </div>
+    </ConditionalAdContainer>
   );
 }

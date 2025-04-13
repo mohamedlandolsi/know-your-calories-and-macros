@@ -77,7 +77,6 @@ export const translations = {
     resultsTip1: 'Consume sufficient protein to maintain or build muscle mass',
     resultsTip2: 'Distribute your meals evenly throughout the day',
     resultsTip3: 'Adjust your intake based on your actual results over 2-4 weeks',
-    adDisclaimer: 'This website contains advertisements to support our free services. The ads are selected to be relevant to our content.',
   },
   fr: {
     appName: 'Connaître Vos Calories et Macros',
@@ -127,7 +126,6 @@ export const translations = {
     resultsTip1: 'Consommez suffisamment de protéines pour maintenir ou développer votre masse musculaire',
     resultsTip2: 'Répartissez vos repas uniformément tout au long de la journée',
     resultsTip3: 'Ajustez votre apport en fonction de vos résultats réels sur 2-4 semaines',
-    adDisclaimer: 'Ce site web contient des publicités pour soutenir nos services gratuits. Les publicités sont sélectionnées pour être pertinentes par rapport à notre contenu.',
   },
   ar: {
     appName: 'احسب السعرات والعناصر الغذائية',
@@ -177,7 +175,6 @@ export const translations = {
     resultsTip1: 'استهلك كمية كافية من البروتين للحفاظ على أو بناء كتلة العضلات',
     resultsTip2: 'وزع وجباتك بالتساوي على مدار اليوم',
     resultsTip3: 'اضبط استهلاكك بناءً على نتائجك الفعلية خلال 2-4 أسابيع',
-    adDisclaimer: 'يحتوي هذا الموقع على إعلانات لدعم خدماتنا المجانية. يتم اختيار الإعلانات لتكون ذات صلة بمحتوانا.',
   }
 } as const;
 

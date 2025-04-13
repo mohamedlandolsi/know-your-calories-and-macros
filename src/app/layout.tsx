@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { LanguageProvider } from "@/components/language/language-provider";
 import GoogleAdSense from "@/components/ads/google-adsense";
+import { ContentProvider } from "@/components/content/content-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -120,9 +121,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            {children}
-            <Analytics />
-            <GoogleAdSense client={adsensePublisherId} />
+            <ContentProvider>
+              {children}
+              <Analytics />
+              <GoogleAdSense client={adsensePublisherId} />
+            </ContentProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

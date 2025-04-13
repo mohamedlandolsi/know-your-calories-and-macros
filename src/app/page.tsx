@@ -6,14 +6,13 @@ import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { JsonLd } from "@/components/seo/json-ld";
-// Keep the import but we'll conditionally render the components
 import AdBanner from "@/components/ads/ad-banner";
 
 export default function Home() {
   const { t } = useLanguage();
   
-  // Set this to true when AdSense is verified
-  const showAds = false;
+  // Enable ads now that we have fixed the policy violation
+  const showAds = true;
   
   // Structured data for the calculator
   const calculatorJsonLd = {
@@ -43,7 +42,7 @@ export default function Home() {
       <div className="w-full max-w-6xl mx-auto">
         <Header />
         
-        {/* Desktop side ads - only render if showAds is true */}
+        {/* Desktop side ads - only shown when content is available */}
         {showAds && (
           <>
             <div className="fixed hidden xl:block z-10" style={{ 
@@ -56,7 +55,8 @@ export default function Home() {
                 slot="5486274173" 
                 format="vertical" 
                 responsive={false} 
-                className="w-[160px]" 
+                className="w-[160px]"
+                requiresResults={true}
               />
             </div>
             
@@ -70,7 +70,8 @@ export default function Home() {
                 slot="2913748569" 
                 format="vertical" 
                 responsive={false}
-                className="w-[160px]" 
+                className="w-[160px]"
+                requiresResults={true}
               />
             </div>
           </>
@@ -91,13 +92,14 @@ export default function Home() {
             <NutritionCalculator />
           </motion.div>
           
-          {/* Mobile-only bottom ad - only render if showAds is true */}
+          {/* Mobile-only bottom ad - only shown after calculator has results */}
           {showAds && (
             <div className="mt-8 xl:hidden">
               <AdBanner 
                 slot="8293141276" 
                 format="rectangle" 
-                className="max-w-4xl mx-auto" 
+                className="max-w-4xl mx-auto"
+                requiresResults={true}
               />
             </div>
           )}
